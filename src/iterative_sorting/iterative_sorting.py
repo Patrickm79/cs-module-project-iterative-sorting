@@ -7,18 +7,33 @@ def selection_sort(arr):
         # TO-DO: find next smallest element
         # (hint, can do in 3 loc)
         # Your code here
+        # Find smallest element
+        for j in range(cur_index + 1, len(arr)): # start at next element
+            if arr[j] < arr[smallest_index]: # if smaller,
+                smallest_index = j # mark as smallest_index
 
-
-        # TO-DO: swap
-        # Your code here
+        arr[smallest_index], arr[cur_index] = arr[cur_index], arr[smallest_index] # swap
 
     return arr
 
 
 # TO-DO:  implement the Bubble Sort function below
-def bubble_sort(arr):
-    # Your code here
 
+def bubble_sort(arr):
+    
+    # Your code here
+    pass_num = 1 # Keep track of the pass number to not check the elements that have already bubbled up
+    did_swap = True
+
+    while (did_swap): # Only keep going while swaps are being made
+        did_swap = False
+
+        for i in range(len(arr) - pass_num): # Loop through all the elements minus the pass number
+            if arr[i] > arr[i + 1]: # if the next element is larger,
+                arr[i], arr[i + 1] = arr[i + 1], arr[i] # then swap
+                did_swap = True # Make note if we did at least one swap
+
+        pass_num += 1
 
     return arr
 
@@ -42,5 +57,31 @@ What is the time and space complexity of the counting sort algorithm?
 def counting_sort(arr, maximum=None):
     # Your code here
 
+    # Loop through values, initalize buckets.
+    # Place each value in bucket by incrementing that index then construct list from bucket
+    # First pass solution: Loop through buckets, adding the appropriate number of values to our result list
+    # Second pass: Overwrite data in the list passed in by looping through the buckets.
+
+    # If no maximum is passed in, let's find the maximum
+
+    if not maximum:
+        maximum = 0
+        for value in arr:
+            if value > maximum:
+                maximum = value
+
+    buckets = [0] * (maximum + 1) # allocate appropriate number of buckets
+
+    for value in arr:
+        if value < 0: # make sure to guard against negative integers
+            return "Error, negative numbers not allowed in Count Sort"
+        buckets[value] += 1
+
+    index = 0
+
+    for value, occurences in enumerate(buckets): # bucket index is the value, the int in the bucket is the number of occurences
+        for _ in range(occurences): 
+            arr[index] = value # overwrite input list with value
+            index += 1 # increment index
 
     return arr
